@@ -1,4 +1,6 @@
 # ML Specialization Coursera
+
+Windows 用户：见 [Windows + VS Code Jupyter 安装与运行说明](WINDOWS.md)。已修复的运行问题与逐文件验证结果见 [检查报告](notebook-check-report.md)。课程练习保持留空。
 Special thanks to Andrew Ng and the rest of the Coursera team for creating a very accessible introductory Machine Learning Specialization. This repository contains the unsolved versions of the programming assignments as well as the quizzes and exploratory labs provided. 
 
 ## How to do the exercises

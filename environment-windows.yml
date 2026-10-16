@@ -1,0 +1,12 @@
+name: ml
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - pip
+  - numpy=1.26.4
+  - box2d-py=2.3.8
+  - graphviz
+  - pip:
+      - -r requirements-ml.txt

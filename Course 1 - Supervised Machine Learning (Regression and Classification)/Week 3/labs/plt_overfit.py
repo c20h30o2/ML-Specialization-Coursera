@@ -332,8 +332,9 @@ class overfit_example():
         self.X_mapped, _ =  map_one_feature(self.X, self.degree)
         self.X_mapped_scaled, self.X_mu, self.X_sigma  = zscore_normalize_features(self.X_mapped)
 
-        #linear_model = LinearRegression()
-        linear_model = Ridge(alpha=self.lambda_, normalize=True, max_iter=10000)
+        # 输入已做 z-score；旧 normalize=True 还会将各列除以 sqrt(样本数)。
+        # 新版已移除 normalize，用等效的 alpha 保留原演示的正则化强度。
+        linear_model = Ridge(alpha=self.lambda_ * len(self.y), max_iter=10000)
         linear_model.fit(self.X_mapped_scaled, self.y )
         self.w = linear_model.coef_.reshape(-1,)
         self.b = linear_model.intercept_
@@ -356,7 +357,8 @@ class overfit_example():
         self.X_mapped, _ =  map_feature(self.X[:, 0], self.X[:, 1], self.degree)
         self.X_mapped_scaled, self.X_mu, self.X_sigma  = zscore_normalize_features(self.X_mapped)
         if not self.regularize or self.lambda_ == 0:
-            lr = LogisticRegression(penalty='none', max_iter=10000)
+            # None 表示不加正则化；新版不再接受字符串 'none'。
+            lr = LogisticRegression(penalty=None, max_iter=10000)
         else:
             C = 1/self.lambda_
             lr = LogisticRegression(C=C, max_iter=10000)

@@ -168,19 +168,10 @@ class plt_one_addpt_onclick:
         self.fig.canvas.draw()
 
     def resize_sq(self, bcid):
-        """ resizes the check box """
-        #future reference
-        #print(f"width  : {bcid.rectangles[0].get_width()}")
-        #print(f"height : {bcid.rectangles[0].get_height()}")
-        #print(f"xy     : {bcid.rectangles[0].get_xy()}")
-        #print(f"bb     : {bcid.rectangles[0].get_bbox()}")
-        #print(f"points : {bcid.rectangles[0].get_bbox().get_points()}")  #[[xmin,ymin],[xmax,ymax]]
-
-        h = bcid.rectangles[0].get_height()
-        bcid.rectangles[0].set_height(3*h)
-
-        ymax = bcid.rectangles[0].get_bbox().y1
-        ymin = bcid.rectangles[0].get_bbox().y0
-
-        bcid.lines[0][0].set_ydata([ymax,ymin])
-        bcid.lines[0][1].set_ydata([ymin,ymax])
+        """用公开接口调整复选框大小，适用于 Matplotlib 3.7 及以后版本。"""
+        # Matplotlib 3.9 删除了 rectangles / lines；新版用散点集合绘制框和勾。
+        # s 的单位是平方点，因此把期望的边长（随标签字号变化）平方。
+        size = (bcid.labels[0].get_fontsize() * 1.5) ** 2
+        bcid.set_frame_props({'s': [size]})
+        # 3.9 中未选中时勾是透明的；同时指定选中颜色，避免把透明色缓存为选中颜色。
+        bcid.set_check_props({'s': [size], 'facecolor': 'black'})
